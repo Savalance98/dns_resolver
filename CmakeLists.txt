@@ -1,0 +1,57 @@
+# cmake_minimum_required(VERSION 3.13)
+# project(MyProgram)
+
+# cmake_policy(SET CMP0167 NEW)
+
+# set(CMAKE_CXX_STANDARD 17)
+# set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# #  Boost с нужными компонентами
+# find_package(Boost REQUIRED COMPONENTS system filesystem json)
+
+# # libpqxx и libpq
+# find_library(PQXX_LIBRARY pqxx REQUIRED PATHS /opt/homebrew/lib /opt/homebrew/opt/libpq/lib)
+# find_library(PQ_LIBRARY pq REQUIRED PATHS /opt/homebrew/lib /opt/homebrew/opt/libpq/lib)
+
+# # Добавление исполняемого файла
+# add_executable(main main.cpp)
+
+# # Установил директорий для include и link
+# target_include_directories(main PRIVATE ${Boost_INCLUDE_DIRS} /opt/homebrew/opt/libpq/include /opt/homebrew/include)
+# target_link_directories(main PRIVATE /opt/homebrew/lib /opt/homebrew/opt/libpq/lib)
+
+# # Подключил библи к проекту
+# target_link_libraries(main PRIVATE ${Boost_LIBRARIES} ${PQXX_LIBRARY} ${PQ_LIBRARY})
+
+cmake_minimum_required(VERSION 3.13)
+project(MyProgram)
+
+cmake_policy(SET CMP0167 NEW)
+
+set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD_REQUIRED True)
+
+# Использование Boost
+find_package(Boost REQUIRED COMPONENTS system filesystem json)
+
+# Пути для libpqxx и libpq через переменные окружения
+set(LIBPQXX_ROOT $ENV{LIBPQXX_ROOT})
+set(LIBPQ_ROOT $ENV{LIBPQ_ROOT})
+
+# Находим библиотеки
+find_library(PQXX_LIBRARY pqxx REQUIRED PATHS ${LIBPQXX_ROOT}/lib)
+find_library(PQ_LIBRARY pq REQUIRED PATHS ${LIBPQ_ROOT}/lib)
+
+# Указываем пути для include
+set(LIBPQXX_INCLUDE_DIR ${LIBPQXX_ROOT}/include)
+set(LIBPQ_INCLUDE_DIR ${LIBPQ_ROOT}/include)
+
+# Добавляем исполняемый файл
+add_executable(main main.cpp)
+
+# Устанавливаем include и link пути
+target_include_directories(main PRIVATE ${Boost_INCLUDE_DIRS} ${LIBPQXX_INCLUDE_DIR} ${LIBPQ_INCLUDE_DIR})
+target_link_directories(main PRIVATE ${LIBPQXX_ROOT}/lib ${LIBPQ_ROOT}/lib)
+
+# Подключаем библиотеки к проекту
+target_link_libraries(main PRIVATE ${Boost_LIBRARIES} ${PQXX_LIBRARY} ${PQ_LIBRARY})

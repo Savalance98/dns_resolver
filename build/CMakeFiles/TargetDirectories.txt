@@ -1,0 +1,3 @@
+/Users/daniilsavin/Documents/cplus/resolve_dns/build/CMakeFiles/main.dir
+/Users/daniilsavin/Documents/cplus/resolve_dns/build/CMakeFiles/edit_cache.dir
+/Users/daniilsavin/Documents/cplus/resolve_dns/build/CMakeFiles/rebuild_cache.dir
